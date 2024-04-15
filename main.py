@@ -29,7 +29,7 @@ st.markdown(" On Conversational Data ")
 st.title("💻<------------------->💻")
 
 csv = st.file_uploader("Please upload any .CSV")
-name = csv.name.split('.')[0]
+
 if csv is not None:
     df = pd.read_csv(csv)
     st.write(df.head())
@@ -57,7 +57,7 @@ if csv is not None:
             but1 = st.download_button(
                 label="Download the Result as CSV",
                 data=final,
-                file_name=name+'_SA.csv',
+                file_name='Sentiment_Analysis.csv',
                 mime='text/csv'
             )
 
