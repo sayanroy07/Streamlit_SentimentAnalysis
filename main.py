@@ -14,8 +14,8 @@ import numpy as np
 from transformers import pipeline
 import pandas as pd
 
-new = pd.read_csv(r"C:\Users\User\Downloads\requirements.txt")
-new.head()
+#new = pd.read_csv(r"C:\Users\User\Downloads\requirements.txt")
+#new.head()
 
 with st.sidebar:
     st.title("Description:")
