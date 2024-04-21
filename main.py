@@ -21,6 +21,7 @@ with st.sidebar:
     st.title("Description:")
     st.write('🟤 Hugging Face - https://huggingface.co/')
     st.write('🟤 Streamlit - https://streamlit.io/')
+    st.write('🟤 Git Hub - https://github.com/sayanroy07')
     st.markdown('This Model basically brings in Conversational Text data'
                 ' & performs Sentiment Analysis on individual response.'
                 ' We have used pre-trained Transformer Model with Streamlit App.'
