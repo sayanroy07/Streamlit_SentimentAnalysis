@@ -19,14 +19,16 @@ import pandas as pd
 
 with st.sidebar:
     st.title("Description:")
+    st.write('🟤 Hugging Face - https://huggingface.co/')
+    st.write('🟤 Streamlit - https://streamlit.io/')
     st.markdown('This Model basically brings in Conversational Text data'
                 ' & performs Sentiment Analysis on individual response.'
                 ' We have used pre-trained Transformer Model with Streamlit App.'
                 ' The spectrum has 3 scales on it for every response as below:')
     #st.title('😃 - Strongly Positive')
-    st.title('😃 - Positive')
-    st.title('😑 - Neutral')
-    st.title('😠 - Negative')
+    st.write('😃 - Positive')
+    st.write('😑 - Neutral')
+    st.write('😠 - Negative')
     #st.title('😠 - Strongly Negative')
     st.title('Developed by Sayan Roy')
 st.title("Sentiment Analysis")
@@ -60,6 +62,7 @@ if option=='Upload an entire CSV File':
                 # st.write(type(df2))
                 clf = pipeline("sentiment-analysis")
                 label = []
+                score = []
                 # new = df2[0:5]
                 # label = [clf(df2[0])[0]['label']]
                 # for i in range(5):
@@ -67,6 +70,7 @@ if option=='Upload an entire CSV File':
                 for i in range(len(df2)):
                     if len(df2[i].split()) < 512:
                         label.extend([clf(df2[i])[0]['label']])
+                        score.extend([clf(df2[i])[0]['score']])
                     else:
                         cnt = cnt + 1
                 if cnt == 1:
@@ -74,9 +78,11 @@ if option=='Upload an entire CSV File':
                 else:
                     st.write(cnt, " rows detected where token length > 512, hence discarded.")
                 # label.extend([clf(new[i])[0]['label']])
-                df3 = pd.DataFrame(data=list(zip(df2, label)), columns=["Text", "Label"])
-                df4 = df3.groupby(by=['Label']).count()
+                df3 = pd.DataFrame(data=list(zip(df2, label, score)), columns=["Text Comment", "Label", "Confidence Score"])
+                df31 = pd.DataFrame(data=list(zip(df2, label)), columns=["Text", "Label"])
+                df4 = df31.groupby(by=['Label']).count()
                 st.bar_chart(data=df4, use_container_width=True)
+
                 final = df3.to_csv().encode('utf-8')
                 but1 = st.download_button(
                     label="Download the Result as CSV",
@@ -85,8 +91,10 @@ if option=='Upload an entire CSV File':
                     mime='text/csv'
                 )
 else:
-    clf = pipeline("sentiment-analysis")
-    txt = st.text_input("",placeholder="Please write something...")
-    if txt is not '':
-        x = clf(txt)[0]["label"]
-        st.write(f"Sentiment is: **{x}**")
+    if option=='I would enter the sentence manually':
+        clf = pipeline("sentiment-analysis")
+        txt = st.text_input("",placeholder="Please write something...")
+        if txt is not '':
+            x = clf(txt)[0]["label"]
+            y = clf(txt)[0]["score"]
+            st.write(f"Sentiment is **{x}** with **{round(y*100,2)}%** confidence")
