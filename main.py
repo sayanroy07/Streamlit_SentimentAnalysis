@@ -57,7 +57,7 @@ if option=='Upload an entire CSV File':
             else:
                 df['Flag'] = df[col].apply(lambda x: x if x is not np.nan else "Missing")
                 df1 = df[df['Flag'] != "Missing"]
-                df2 = df1["Text"].values.tolist()
+                df2 = df1[col].values.tolist()
                 # st.write(df2[5])
                 # st.write(len(df2[5].split()))
                 # st.write(type(df2))
